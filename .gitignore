@@ -1,0 +1,28 @@
+# Gradle
+.gradle/
+build/
+*/build/
+
+# Local properties (contains SDK path — machine-specific)
+local.properties
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+
+# Android Studio
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Kotlin
+*.class
+
+# Debug keystore — include in repo so CI can build signed APK
+# debug.keystore  <-- intentionally NOT ignored
+
+# Backend node_modules
+backend/node_modules/

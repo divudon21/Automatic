@@ -1,0 +1,103 @@
+name: 🚀 Auto Build & Release APK
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    types: [ closed ]
+  workflow_dispatch:  # Allow manual trigger from GitHub UI
+
+jobs:
+  build:
+    name: Build Debug APK
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+
+    steps:
+      # ── 1. Checkout ─────────────────────────────────────────────────────────
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ── 2. Java 17 ──────────────────────────────────────────────────────────
+      - name: ☕ Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      # ── 3. Android SDK ──────────────────────────────────────────────────────
+      - name: 📱 Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      # ── 4. Grant gradlew execute permission ─────────────────────────────────
+      - name: 🔑 Make gradlew executable
+        run: chmod +x gradlew
+
+      # ── 5. Build ─────────────────────────────────────────────────────────────
+      - name: 🔨 Build Debug APK
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+        env:
+          GRADLE_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=512m"
+
+      # ── 6. Get version name ──────────────────────────────────────────────────
+      - name: 📋 Get version name
+        id: version
+        run: |
+          VERSION=$(./gradlew -q printVersionName --no-daemon | tail -1)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+          echo "build_tag=v${VERSION}-build.${SHORT_SHA}" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION  Tag: v$VERSION-build.$SHORT_SHA"
+
+      # ── 7. Rename APK ────────────────────────────────────────────────────────
+      - name: 📦 Rename APK
+        run: |
+          mkdir -p release
+          cp app/build/outputs/apk/debug/app-debug.apk \
+             release/VibeFlow-${{ steps.version.outputs.build_tag }}.apk
+          echo "APK ready: release/VibeFlow-${{ steps.version.outputs.build_tag }}.apk"
+
+      # ── 8. Upload artifact (always, even for PRs) ────────────────────────────
+      - name: 📤 Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: VibeFlow-APK-${{ steps.version.outputs.build_tag }}
+          path: release/*.apk
+          retention-days: 30
+
+      # ── 9. Create GitHub Release (only on push to main) ──────────────────────
+      - name: 🏷️ Create GitHub Release
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.build_tag }}
+          name: "VibeFlow ${{ steps.version.outputs.build_tag }}"
+          body: |
+            ## VibeFlow ${{ steps.version.outputs.version }}
+
+            **Build:** `${{ steps.version.outputs.build_tag }}`  
+            **Commit:** `${{ github.sha }}`  
+            **Branch:** `${{ github.ref_name }}`
+
+            ### What's in this build
+            - JioSaavn streaming (12kbps / 96kbps / 320kbps)
+            - YouTube Music via InnerTube + Piped fallback
+            - Background playback with media notification
+            - Download songs with quality selection
+            - Auto-update support
+
+            ### Install
+            1. Download `VibeFlow-*.apk` below
+            2. Enable **Unknown Sources** in Android Settings
+            3. Install the APK
+          files: release/*.apk
+          draft: false
+          prerelease: false
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
