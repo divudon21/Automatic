@@ -27,7 +27,7 @@ jobs:
 
       # 2. Set up JDK 17 (required by AGP 8.x + Kotlin 2.x)
       - name: ☕ Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '17'
           distribution: 'temurin'   # Eclipse Temurin (formerly AdoptOpenJDK)
