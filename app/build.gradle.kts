@@ -114,14 +114,14 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 
     // ExoPlayer Media3
-    implementation("androidx.media3:media3-exoplayer:1.5.1")
-    implementation("androidx.media3:media3-exoplayer-dash:1.5.1")
-    implementation("androidx.media3:media3-ui:1.5.1")
-    implementation("androidx.media3:media3-session:1.5.1")
-    implementation("androidx.media3:media3-common:1.5.1")
-    implementation("androidx.media3:media3-datasource-okhttp:1.5.1")
-    implementation("androidx.media3:media3-extractor:1.5.1")
-    implementation("androidx.media3:media3-decoder:1.5.1")
+    implementation("androidx.media3:media3-exoplayer:1.10.0")
+    implementation("androidx.media3:media3-exoplayer-dash:1.10.0")
+    implementation("androidx.media3:media3-ui:1.10.0")
+    implementation("androidx.media3:media3-session:1.10.0")
+    implementation("androidx.media3:media3-common:1.10.0")
+    implementation("androidx.media3:media3-datasource-okhttp:1.10.0")
+    implementation("androidx.media3:media3-extractor:1.10.0")
+    implementation("androidx.media3:media3-decoder:1.10.0")
 
     // Glide for MediaSession artwork (bitmap loading)
     implementation("com.github.bumptech.glide:glide:4.16.0")
