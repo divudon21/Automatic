@@ -111,7 +111,7 @@ dependencies {
     implementation("com.github.TeamNewPipe:NewPipeExtractor:18757880f6")
 
     // Java 8+ desugaring (required by NewPipeExtractor on minSdk < 26)
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 
     // ExoPlayer Media3
     implementation("androidx.media3:media3-exoplayer:1.5.1")
