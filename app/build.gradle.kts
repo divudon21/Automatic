@@ -98,7 +98,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 
-    implementation("androidx.datastore:datastore-preferences:1.2.0")
+    implementation("androidx.datastore:datastore-preferences:1.2.1")
 
     // Retrofit + OkHttp
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
