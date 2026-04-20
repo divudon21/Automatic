@@ -73,7 +73,7 @@ jobs:
       # ── 9. Create GitHub Release (only on push to main) ──────────────────────
       - name: 🏷️ Create GitHub Release
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.version.outputs.build_tag }}
           name: "VibeFlow ${{ steps.version.outputs.build_tag }}"

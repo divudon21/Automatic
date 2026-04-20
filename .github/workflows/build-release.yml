@@ -94,7 +94,7 @@ jobs:
 
       # 10. Create GitHub Release and upload APK
       - name: 🚀 Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ steps.rename_apk.outputs.version }}-${{ github.run_number }}
           name: "VibeFlow v${{ steps.rename_apk.outputs.version }} (Build #${{ github.run_number }})"
