@@ -35,7 +35,7 @@ jobs:
 
       # 3. Set up Android SDK (pre-installed on ubuntu-latest, just configure)
       - name: 📱 Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
       # 4. Cache Gradle dependencies (speeds up subsequent builds)
       - name: 🗄️ Cache Gradle packages
