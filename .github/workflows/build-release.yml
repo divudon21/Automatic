@@ -86,7 +86,7 @@ jobs:
 
       # 9. Upload APK as workflow artifact (available in Actions tab even without release)
       - name: ⬆️ Upload APK artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: VibeFlow-APK
           path: ${{ steps.rename_apk.outputs.apk_name }}
