@@ -6,7 +6,17 @@ plugins {
 }
 
 android {
-    namespace = "com.vibeflow.music"
+    namespace = "com.vibeflow.org"
+    compileSdk = 36
+    buildToolsVersion = "36.0.0"
+
+    defaultConfig {
+        applicationId = "com.vibeflow.org"
+        minSdk = 24
+        targetSdk = 36
+        versionCode = 1
+        versionName = "1.0"
+    }
 
     packaging {
         resources {
@@ -20,16 +30,6 @@ android {
                 "mozilla/public-suffix-list.txt"
             )
         }
-    }
-    compileSdk = 36
-    buildToolsVersion = "36.0.0"
-
-    defaultConfig {
-        applicationId = "com.vibeflow.music"
-        minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
     }
 
     signingConfigs {
@@ -47,10 +47,6 @@ android {
         }
         release {
             isMinifyEnabled = false
-            // Use debug signing for unsigned-style release APK
-            // GitHub Actions will sign with keystore secrets if provided,
-            // otherwise falls back to debug keystore so APK is installable.
-            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
@@ -67,13 +63,6 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-}
-
-// Task to print versionName — used by GitHub Actions for APK naming
-tasks.register("printVersionName") {
-    doLast {
-        println(android.defaultConfig.versionName)
     }
 }
 
